@@ -24,12 +24,33 @@ Every exhibit is modelled in code from geometric primitives and canvas-drawn tex
 | 05 Herbarium sheet | 11 Ife glass beads |
 | 06 African rock python skeleton | 12 Pottery vessel |
 
+## Works offline
+
+Everything the museum needs is in this repository: three.js is in `vendor/` and the fonts are in `fonts/`, so nothing is loaded from the internet.
+
+- **From a folder:** download or clone the repository and open `index.html` in Chrome, Edge or Firefox. Keep `vendor/` and `fonts/` next to it.
+- **From the hosted site:** visit it once while online. A service worker (`sw.js`) saves every file, and the site then opens with no connection. On a phone you can also choose "Add to Home screen" to install it like an app.
+
+When you change any file, bump `VERSION` in `sw.js` so visitors receive the new copy.
+
 ## Run it locally
 
-It is a single static page. Open `index.html` in a browser, or serve the folder:
+Open `index.html` directly, or serve the folder:
 
 ```bash
 npx serve .
+```
+
+## Project structure
+
+```
+index.html              the whole museum (HTML, CSS and JavaScript)
+vendor/three.min.js     three.js r128, bundled for offline use
+fonts/                  Instrument Serif and Archivo (woff2)
+sw.js                   offline cache for the hosted site
+manifest.webmanifest    lets the site be installed as an app
+icon.svg                app icon
+vercel.json             tells Vercel not to cache sw.js
 ```
 
 ## Deploy
@@ -38,13 +59,12 @@ The repository deploys to Vercel as a static site with no build step (Framework 
 
 ## Built with
 
-- [three.js](https://threejs.org/) r128 (WebGL), loaded from cdnjs
+- [three.js](https://threejs.org/) r128 (WebGL), bundled in `vendor/` (MIT licence)
 - HTML5 Canvas 2D API for procedural textures
-- Instrument Serif and Archivo from Google Fonts
+- Instrument Serif and Archivo fonts, bundled in `fonts/` (SIL Open Font Licence)
 
 ## About
 
 CSC course project by Oyewade Samuel Oluwatomisin, Department of Computer Science and Engineering, Obafemi Awolowo University.
 
 This is a student project inspired by OAU's museums. The exhibits are stylised 3D models, not scans or replicas of objects in the university's collections.
-# Interactive-3D-Museum

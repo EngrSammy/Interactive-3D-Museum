@@ -1,0 +1,10 @@
+{
+  "name": "OAU Heritage Gallery",
+  "short_name": "OAU Gallery",
+  "description": "An interactive 3D museum inspired by the museums of Obafemi Awolowo University, Ile-Ife.",
+  "start_url": "./",
+  "display": "fullscreen",
+  "background_color": "#0c1430",
+  "theme_color": "#0c1430",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}

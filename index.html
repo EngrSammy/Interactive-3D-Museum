@@ -4,10 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>OAU Heritage Gallery: an interactive 3D museum</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Archivo:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0c1430">
 <style>
+  /* Fonts are bundled in ./fonts so the museum works without an internet connection */
+  @font-face { font-family: "Instrument Serif"; font-style: normal; font-weight: 400; font-display: swap; src: url("fonts/instrument-serif-latin-400-normal.woff2") format("woff2"); }
+  @font-face { font-family: "Instrument Serif"; font-style: italic; font-weight: 400; font-display: swap; src: url("fonts/instrument-serif-latin-400-italic.woff2") format("woff2"); }
+  @font-face { font-family: "Archivo"; font-style: normal; font-weight: 400; font-display: swap; src: url("fonts/archivo-latin-400-normal.woff2") format("woff2"); }
+  @font-face { font-family: "Archivo"; font-style: italic; font-weight: 400; font-display: swap; src: url("fonts/archivo-latin-400-italic.woff2") format("woff2"); }
+  @font-face { font-family: "Archivo"; font-style: normal; font-weight: 500; font-display: swap; src: url("fonts/archivo-latin-500-normal.woff2") format("woff2"); }
+  @font-face { font-family: "Archivo"; font-style: normal; font-weight: 600; font-display: swap; src: url("fonts/archivo-latin-600-normal.woff2") format("woff2"); }
   :root {
     --page-bg: #0c1430;
     --label-bg: #fbfaf6;
@@ -140,13 +146,19 @@
   </div>
 </section>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="vendor/three.min.js"></script>
+<script>
+  // Cache the whole museum after the first visit so the hosted site also opens offline.
+  if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+    addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+  }
+</script>
 <script>
 (async function () {
   'use strict';
   const enterBtn = document.getElementById('enter'), errBox = document.getElementById('err');
   function fail(msg) { errBox.hidden = false; errBox.textContent = msg; enterBtn.textContent = 'Gallery unavailable'; }
-  if (!window.THREE) { fail('The 3D library could not load. Check your connection and reload the page.'); return; }
+  if (!window.THREE) { fail('The 3D library (vendor/three.min.js) is missing. Keep the vendor folder next to index.html and reload.'); return; }
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const coarse = matchMedia('(pointer: coarse)').matches;
 
